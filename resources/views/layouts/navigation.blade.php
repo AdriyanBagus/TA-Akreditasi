@@ -6,7 +6,8 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <img src="/assets/image/logo-harber.png" alt="" class="block h-14 w-auto fill-current text-gray-800">
+                        <!-- <x-application-logo class="block h-9 w-auto fill-current text-gray-800" /> -->
                     </a>
                 </div>
 
@@ -16,6 +17,21 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                
+                @auth
+                    @if (auth()->user()->usertype === 'admin') 
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route('admin.tambah-user')" :active="request()->routeIs('tambah-user')">
+                                {{ __('Tambah User') }}
+                            </x-nav-link>
+
+                            <x-nav-link :href="route('admin.show')" :active="request()->routeIs('show')">
+                                {{ __('Daftar User') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
+                @endauth
+               
             </div>
 
             <!-- Settings Dropdown -->
