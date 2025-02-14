@@ -16,7 +16,7 @@ class DiagramController extends Controller
                 ->groupBy('tingkat')
                 ->pluck('total', 'tingkat');
         }
-
         return view('pages.diagram_view', compact('diagram_view'));
     }
+
 }

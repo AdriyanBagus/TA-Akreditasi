@@ -10,7 +10,6 @@
             <div class="bg-white overflow-hidden shadow rounded-lg p-8">
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
-
                     <!-- Name -->
                     <div>
                         <x-input-label for="name" :value="__('Nama User')" />

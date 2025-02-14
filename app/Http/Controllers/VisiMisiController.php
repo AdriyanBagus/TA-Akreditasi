@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Settings;
 use App\Models\VisiMisi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,9 +15,12 @@ class VisiMisiController extends Controller
 
     public function show()
     {
-        if (Auth::user()->id) {
-            $visi_misi = VisiMisi::where('user_id', Auth::user()->id)->get();
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
         }
+    
+        $visi_misi = VisiMisi::where('user_id', Auth::user()->id)->get();
+    
         return view('pages.visi_misi', compact('visi_misi'));
     }
 

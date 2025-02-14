@@ -183,4 +183,5 @@
          modalTitle.textContent = 'Tambah Visi Misi ';
          // modalBodyInput.value = recipient;
     });
+    </script>
 </x-app-layout>

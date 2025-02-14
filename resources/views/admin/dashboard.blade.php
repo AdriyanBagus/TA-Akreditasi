@@ -1,193 +1,195 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="relative flex items-center">
-            <!-- Tombol Scroll Kiri -->
-            <button id="scrollLeft" class="absolute left-[-10px] z-10 bg-white-700 text-white px-3 py-1 rounded-full">
-                ◀
-            </button>
-
-            <!-- Navbar Scrollable -->
-            <div id="navScroll"
-                class="hidden sm:-my-px sm:ms-10 sm:flex overflow-x-auto whitespace-nowrap space-x-7 max-w-full scrollbar-hide scroll-container">
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Tingkat Akreditasi') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Visi dan Misi') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Kerjasama') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Ketersediaan Dokumen PS/Bagian') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Pelaksanaan Penjaminan Mutu') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Profile Dosen') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Beban Kinerja Dosen') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Profil Dosen tidak tetap') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Pelaksanaan TA') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Wahana/Lahan Praktek') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Kinerja DTPS') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Profil Tenaga Kependidikan') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Rekognisi tenaga kependidikan') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Keuangan') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Sarana dan Prasarana') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Penelitian Dosen Program Studi') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Penelitian mahasiswa diluar TA Program Studi') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Publikasi Karya Ilmiah Hasil Penelitian Program Studi') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Luaran Karya Ilmiah Hasil penelitian Program Studi') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Sitasi luaran penelitian Dosen Program Studi') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('PKM Dosen Program Studi') }}
-                </x-nav-link>
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('PMM Mahasiswa Program Studi') }}
-                </x-nav-link>
-                
-            </div>
-
-            <!-- Tombol Scroll Kanan -->
-            <button id="scrollRight" class="absolute right-[-40px] z-10 bg-white-700 text-white px-3 py-1 rounded-full">
-                ▶
-            </button>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Dashboard Admin') }}
+        </h2>
     </x-slot>
 
-    <!-- Container untuk Chart -->
-    <div class="chart-container">
-        <canvas id="myChart"></canvas>
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-1">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="container-fluid py-4">
+                    <div class="row">
+                      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                        <a href="{{ route('visimisi') }}">
+                            <div class="card">
+                              <div class="card-body p-3">
+                                <div class="row">
+                                  <div class="col-8">
+                                    <div class="numbers">
+                                      <p class="text-xs mb-0 text-uppercase font-weight-bold">Analisis Visi Misi</p>
+                                      <h5 class="font-weight-bolder">
+                                        {{ $dataCounts['tabel1'] }} 
+                                      </h5>
+                                      <p class="mb-0">
+                                        <span class="text-success text-sm font-weight-bolder"></span> 2025
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                      </div>
+                      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                        <a href="{{ route('pendidikan') }}">
+                            <div class="card">
+                                <div class="card-body p-3">
+                                  <div class="row">
+                                    <div class="col-8">
+                                      <div class="numbers">
+                                        <p class="text-xs mb-0 text-uppercase font-weight-bold">Kerjasama Pendidikan</p>
+                                        <h5 class="font-weight-bolder">
+                                        {{ $dataCounts['tabel2'] }} 
+                                        </h5>
+                                        <p class="mb-0">
+                                          <span class="text-success text-sm font-weight-bolder"></span>
+                                          2025
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </a>
+                      </div>
+                      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                        <a href="{{ route('penelitian') }}">
+                            <div class="card">
+                                <div class="card-body p-3">
+                                  <div class="row">
+                                    <div class="col-8">
+                                      <div class="numbers">
+                                        <p class="text-xs mb-0 text-uppercase font-weight-bold">Kerjasama Penelitian</p>
+                                        <h5 class="font-weight-bolder">
+                                        {{ $dataCounts['tabel3'] }} 
+                                        </h5>
+                                        <p class="mb-0">
+                                          <span class="text-success text-sm font-weight-bolder"></span>
+                                          2025
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </a>
+                      </div>
+                      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                        <a href="{{ route('pengabdian') }}">
+                            <div class="card">
+                                <div class="card-body p-3">
+                                  <div class="row">
+                                    <div class="col-8">
+                                      <div class="numbers">
+                                        <p class="text-xs mb-0 text-uppercase font-weight-bold">Kerjasama Pengabdian</p>
+                                        <h5 class="font-weight-bolder">
+                                        {{ $dataCounts['tabel4'] }} 
+                                        </h5>
+                                        <p class="mb-0">
+                                          <span class="text-success text-sm font-weight-bolder"></span>
+                                          2025
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </a>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid py-4">
+                  <div class="row">
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                      <a href="{{ route('pages.diagram_view') }}">
+                          <div class="card">
+                            <div class="card-body p-3">
+                              <div class="row">
+                                <div class="col-8">
+                                  <div class="numbers">
+                                    <p class="text-xs mb-0 text-uppercase font-weight-bold">Ketersediaan Dokumen</p>
+                                    <h5 class="font-weight-bolder">2</h5>
+                                    <p class="mb-0">
+                                      <span class="text-success text-sm font-weight-bolder"></span> 2025
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                      <a href="{{ route('pages.kerjasama_pendidikan') }}">
+                          <div class="card">
+                              <div class="card-body p-3">
+                                <div class="row">
+                                  <div class="col-8">
+                                    <div class="numbers">
+                                      <p class="text-xs mb-0 text-uppercase font-weight-bold">Evaluasi Pelaksanaan</p>
+                                      <h5 class="font-weight-bolder">
+                                        2
+                                      </h5>
+                                      <p class="mb-0">
+                                        <span class="text-success text-sm font-weight-bolder"></span>
+                                        2025
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                      </a>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                      <a href="{{ route('pages.kerjasama_penelitian') }}">
+                          <div class="card">
+                              <div class="card-body p-3">
+                                <div class="row">
+                                  <div class="col-8">
+                                    <div class="numbers">
+                                      <p class="text-xs mb-0 text-uppercase font-weight-bold">Profil Dosen</p>
+                                      <h5 class="font-weight-bolder">
+                                        2
+                                      </h5>
+                                      <p class="mb-0">
+                                        <span class="text-success text-sm font-weight-bolder"></span>
+                                        2025
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                      </a>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                      <a href="{{ route('pages.kerjasama_pengabdian_kepada_masyarakat') }}">
+                          <div class="card">
+                              <div class="card-body p-3">
+                                <div class="row">
+                                  <div class="col-8">
+                                    <div class="numbers">
+                                      <p class="text-xs mb-0 text-uppercase font-weight-bold">Beban Kinerja Dosen</p>
+                                      <h5 class="font-weight-bolder">
+                                        2
+                                      </h5>
+                                      <p class="mb-0">
+                                        <span class="text-success text-sm font-weight-bolder"></span>
+                                        2025
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                      </a>
+                    </div>
+                  </div>
+              </div>
+            </div>
+        </div>
     </div>
-
-    <!-- Link ke Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script>
-        document.getElementById("scrollLeft").addEventListener("click", function () {
-            document.getElementById("navScroll").scrollBy({ left: -200, behavior: "smooth" });
-        });
-
-        document.getElementById("scrollRight").addEventListener("click", function () {
-            document.getElementById("navScroll").scrollBy({ left: 200, behavior: "smooth" });
-        });
-
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Tingkat A', 'Tingkat B', 'Tingkat C'],
-                datasets: [{
-                    label: 'Tingkat Akreditasi',
-                    data: [1, 3, 2],
-                    backgroundColor: ['#ffeb3b', '#8bc34a', '#4caf50'],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: '#ffffff'
-                        }
-                    },
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Tingkat akreditasi',
-                            color: '#ffffff'
-                        },
-                        ticks: {
-                            color: '#ffffff'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Jumlah Prodi',
-                            color: '#ffffff'
-                        },
-                        ticks: {
-                            color: '#ffffff'
-                        }
-                    }
-                }
-            }
-        });
-    </script>
-
-    <!-- Tambahkan CSS -->
-    <style>
-        .chart-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 1300px;
-            height: 600px;
-            margin: 20px auto;
-            background-color: #1e293b;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
-
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .scroll-container {
-            padding: 10px 40px;
-            /* Tambah padding kiri dan kanan agar tidak terlalu rapat */
-        }
-
-        button {
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-    </style>
 </x-app-layout>

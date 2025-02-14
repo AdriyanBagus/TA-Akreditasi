@@ -28,6 +28,10 @@
                             <x-nav-link :href="route('admin.show')" :active="request()->routeIs('show')">
                                 {{ __('Daftar User') }}
                             </x-nav-link>
+
+                            <x-nav-link :href="route('admin.forms')" :active="request()->routeIs('show')">
+                                {{ __('Form Setting') }}
+                            </x-nav-link>
                         </div>
                     @endif
                 @endauth

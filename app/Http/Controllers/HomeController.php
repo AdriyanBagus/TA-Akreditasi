@@ -4,21 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        $dataCounts = [
+            'tabel1' => DB::table('visi_misi')->count(),
+            'tabel2' => DB::table('kerjasama_pendidikan')->count(),
+            'tabel3' => DB::table('kerjasama_penelitian')->count(),
+            'tabel4' => DB::table('kerjasama_pengabdian_kepada_masyarakat')->count(),
+            // Tambahkan tabel lainnya di sini
+        ];
 
-        return view('admin.dashboard');
+        return view('admin.dashboard', compact('dataCounts'));
     }
 
     public function show()
     {
-        $users = User::all();
+        $users = User::where('usertype', '!=', 'admin')->get();
         return view('admin.show', compact('users'));
-        // return view('admin.show');
     }
 
     public function edit($id)
