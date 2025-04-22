@@ -12,7 +12,7 @@
                     <thead>
                         <tr class="bg-gray-200 text-gray-700 text-left">
                             <th class="px-6 py-3 border">Nama Form</th>
-                            <th class="px-6 py-3 border text-center">Status</th>
+                            <th class="px-6 py-3 border text-center">Pilih User</th>
                             <th class="px-6 py-3 border text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -20,20 +20,26 @@
                         @foreach ($forms as $form)
                             <tr class="hover:bg-gray-100">
                                 <td class="px-6 py-4 border">{{ $form->form_name }}</td>
-                                <td class="px-6 py-4 border text-center">
-                                    <span class="px-3 py-1 rounded-full text-sm font-semibold
-                                        {{ $form->status ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}">
-                                        {{ $form->status ? 'ON' : 'OFF' }}
-                                    </span>
+                                
+                                <td class="px-6 py-4 border text-left">
+                                    <form action="{{ route('form.settings.update', $form->id) }}" method="POST">
+                                        @csrf
+                                        <div class="grid grid-cols-2 gap-2">
+                                            @foreach ($users as $user)
+                                                <label class="flex items-center space-x-2">
+                                                    <input type="checkbox" name="users[]" value="{{ $user->id }}"
+                                                        {{ in_array($user->id, $selectedUsers[$form->id] ?? []) ? 'checked' : '' }}>
+                                                    <span>{{ $user->name }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
                                 </td>
                                 <td class="px-6 py-4 border text-center">
-                                    <form action="{{ route('admin.forms.update', $form->id) }}" method="POST" class="inline-flex items-center space-x-2">
-                                        @csrf
-                                        <select name="status" class="px-4.5 py-2 border rounded-lg focus:ring focus:ring-indigo-300">
-                                            <option value="1" {{ $form->status ? 'selected' : '' }}>ON</option>
-                                            <option value="0" {{ !$form->status ? 'selected' : '' }}>OFF</option>
-                                        </select>
-                                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+                                        {{-- Sembunyikan dropdown, tetap kirim status --}}
+                                        <input type="hidden" name="status" value="{{ $form->status }}">
+                                        
+                                        <button type="submit"
+                                            class="mt-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
                                             Simpan
                                         </button>
                                     </form>

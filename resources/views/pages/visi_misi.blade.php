@@ -38,9 +38,9 @@
                                     </button>
 
                                     <!-- Tombol Delete -->
-                                    <form action="" method="POST" onsubmit="return confirm('Yakin ingin menghapus user ini?');">
-                                        {{-- @csrf
-                                        @method('DELETE') --}}
+                                    <form action="{{ route('pages.visi_misi.destroy', $visimisi->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus user ini?');">
+                                        @csrf
+                                        @method('DELETE')
                                         <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
                                             Delete
                                         </button>
@@ -121,9 +121,9 @@
                   </div>   
                   {{-- End Modal --}}
 
-                {{-- @if($users->isEmpty())
+                @if($visi_misi->isEmpty())
                     <p class="text-center text-gray-500 mt-4">Tidak ada pengguna yang terdaftar.</p>
-                @endif --}}
+                @endif
             </div>
         </div>
     </div>
@@ -137,4 +137,5 @@
          modalTitle.textContent = 'Tambah Visi Misi ';
          // modalBodyInput.value = recipient;
     });
+    </script>
 </x-app-layout>

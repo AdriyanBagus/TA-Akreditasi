@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard')}} {{ Auth::user()->name }}
+            {{ __('Dashboard') }} {{ Auth::user()->name }}
         </h2>
     </x-slot>
 
@@ -80,7 +80,7 @@
                                   <div class="row">
                                     <div class="col-8">
                                       <div class="numbers">
-                                        <p class="text-xs mb-0 text-uppercase font-weight-bold">Ketersediaan Dokumen</p>
+                                        <p class="text-xs mb-0 text-uppercase font-weight-bold">Kerjasama Pengabdian</p>
                                         <h5 class="font-weight-bolder">
                                           2
                                         </h5>
@@ -120,7 +120,7 @@
                         </a>
                     </div>
                     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                      <a href="{{ route('pages.kerjasama_pendidikan') }}">
+                      <a href="{{ route('pages.evaluasi_pelaksanaan') }}">
                           <div class="card">
                               <div class="card-body p-3">
                                 <div class="row">
@@ -142,7 +142,7 @@
                       </a>
                     </div>
                     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                      <a href="{{ route('pages.kerjasama_penelitian') }}">
+                      <a href="{{ route('pages.profil_dosen') }}">
                           <div class="card">
                               <div class="card-body p-3">
                                 <div class="row">
@@ -164,7 +164,7 @@
                       </a>
                     </div>
                     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                      <a href="{{ route('pages.kerjasama_pengabdian_kepada_masyarakat') }}">
+                      <a href="{{ route('pages.beban_kinerja_dosen') }}">
                           <div class="card">
                               <div class="card-body p-3">
                                 <div class="row">
@@ -186,7 +186,97 @@
                       </a>
                     </div>
                   </div>
-              </div>
+                </div>
+
+                <div class="container-fluid py-4">
+                  <div class="row">
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                      <a href="{{ route('pages.diagram_view') }}">
+                          <div class="card">
+                            <div class="card-body p-3">
+                              <div class="row">
+                                <div class="col-8">
+                                  <div class="numbers">
+                                    <p class="text-xs mb-0 text-uppercase font-weight-bold">Profil Dosen Tidak Tetap</p>
+                                    <h5 class="font-weight-bolder">2</h5>
+                                    <p class="mb-0">
+                                      <span class="text-success text-sm font-weight-bolder"></span> 2025
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                      <a href="{{ route('pages.evaluasi_pelaksanaan') }}">
+                          <div class="card">
+                              <div class="card-body p-3">
+                                <div class="row">
+                                  <div class="col-8">
+                                    <div class="numbers">
+                                      <p class="text-xs mb-0 text-uppercase font-weight-bold">Pelaksanaan TA</p>
+                                      <h5 class="font-weight-bolder">
+                                        2
+                                      </h5>
+                                      <p class="mb-0">
+                                        <span class="text-success text-sm font-weight-bolder"></span>
+                                        2025
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                      </a>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                      <a href="{{ route('pages.profil_dosen') }}">
+                          <div class="card">
+                              <div class="card-body p-3">
+                                <div class="row">
+                                  <div class="col-8">
+                                    <div class="numbers">
+                                      <p class="text-xs mb-0 text-uppercase font-weight-bold">Lahan Praktek</p>
+                                      <h5 class="font-weight-bolder">
+                                        2
+                                      </h5>
+                                      <p class="mb-0">
+                                        <span class="text-success text-sm font-weight-bolder"></span>
+                                        2025
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                      </a>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                      <a href="{{ route('pages.beban_kinerja_dosen') }}">
+                          <div class="card">
+                              <div class="card-body p-3">
+                                <div class="row">
+                                  <div class="col-8">
+                                    <div class="numbers">
+                                      <p class="text-xs mb-0 text-uppercase font-weight-bold">Kinerja DPTS</p>
+                                      <h5 class="font-weight-bolder">
+                                        2
+                                      </h5>
+                                      <p class="mb-0">
+                                        <span class="text-success text-sm font-weight-bolder"></span>
+                                        2025
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
             </div>
         </div>
     </div>

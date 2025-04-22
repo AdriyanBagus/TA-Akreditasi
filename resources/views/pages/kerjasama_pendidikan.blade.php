@@ -44,7 +44,7 @@
                                 </button>
 
                                     <!-- Tombol Delete -->
-                                    <form action="" method="POST"
+                                    <form action="{{ route('pages.kerjasama_pendidikan.destroy', $kerjasamapendidikan->id) }}" method="POST"
                                         onsubmit="return confirm('Yakin ingin menghapus user ini?');">
                                         @csrf
                                         @method('DELETE')
@@ -167,9 +167,9 @@
                   </div>   
                   {{-- End Modal --}}
 
-                {{-- @if($users->isEmpty())
-                    <p class="text-center text-gray-500 mt-4">Tidak ada pengguna yang terdaftar.</p>
-                @endif --}}
+                @if($kerjasama_pendidikan->isEmpty())
+                    <p class="text-center text-gray-500 mt-4">Tidak ada data yang diinput.</p>
+                @endif
             </div>
         </div>
     </div>
