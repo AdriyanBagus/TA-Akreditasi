@@ -13,7 +13,7 @@
                         <tr>
                             <th class="px-4 py-2 border">No</th>
                             <th class="px-4 py-2 border">
-                                <a href="{{ route('visimisi', ['sort_by' => 'nama_user', 'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc']) }}">Nama User</a>
+                                <a href="{{ route('visimisi', ['sort_by' => 'nama_user', 'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc']) }}">Nama Prodi</a>
                             </th>
                             <th class="px-4 py-2 border">
                                 <a href="{{ route('visimisi', ['sort_by' => 'visi', 'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc']) }}">Visi</a>

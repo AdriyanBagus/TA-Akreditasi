@@ -23,6 +23,21 @@ class AnalisisController extends Controller
 
         return view('admin.analisis.visimisi', compact('visimisi', 'sortBy', 'sortOrder'));
     }
+
+    public function kerjasama(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $kerjasama = DB::table('kerjasama')
+            ->join('users', 'kerjasama.user_id', '=', 'users.id')
+            ->select('kerjasama.*', 'users.name as nama_user')
+            ->orderBy($sortBy, $sortOrder)
+            ->get();
+
+        return view('admin.analisis.kerjasama', compact('kerjasama', 'sortBy', 'sortOrder'));
+    }
+
     public function kerjasama_pendidikan(Request $request)
     {
         $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
@@ -63,5 +78,285 @@ class AnalisisController extends Controller
         ->get();
 
         return view('admin.analisis.kerjasama.pengabdian',compact('pengabdian','sortBy', 'sortOrder'));
+    }
+
+    public function ketersedian_dokumen(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $ketersediaan_dokumen = DB::table('ketersediaan_dokumen')
+        ->join('users', 'ketersediaan_dokumen.user_id', '=', 'users.id')
+        ->select('ketersediaan_dokumen.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.ketersedian_dokumen',compact('ketersediaan_dokumen','sortBy', 'sortOrder'));
+    }
+
+    public function evaluasi_pelaksanaan(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $evaluasi_pelaksanaan = DB::table('evaluasi_pelaksanaan')
+        ->join('users', 'evaluasi_pelaksanaan.user_id', '=', 'users.id')
+        ->select('evaluasi_pelaksanaan.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.evaluasi_pelaksanaan',compact('evaluasi_pelaksanaan','sortBy', 'sortOrder'));
+    }
+
+    public function profil_dosen(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $profil_dosen = DB::table('profil_dosen')
+        ->join('users', 'profil_dosen.user_id', '=', 'users.id')
+        ->select('profil_dosen.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.profil_dosen',compact('profil_dosen','sortBy', 'sortOrder'));
+    }
+
+    public function beban_kinerja_dosen(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $beban_kinerja_dosen = DB::table('beban_kinerja_dosen')
+        ->join('users', 'beban_kinerja_dosen.user_id', '=', 'users.id')
+        ->select('beban_kinerja_dosen.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.beban_kinerja_dosen',compact('beban_kinerja_dosen','sortBy', 'sortOrder'));
+    }
+
+    public function profile_dosen_tidak_tetap(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $profile_dosen_tidak_tetap = DB::table('profil_dosen_tidak_tetap')
+        ->join('users', 'profil_dosen_tidak_tetap.user_id', '=', 'users.id')
+        ->select('profil_dosen_tidak_tetap.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.profile_dosen_tidak_tetap',compact('profile_dosen_tidak_tetap','sortBy', 'sortOrder'));
+    }
+
+    public function pelaksana_ta(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $pelaksana_ta = DB::table('pelaksanaan_ta')
+        ->join('users', 'pelaksanaan_ta.user_id', '=', 'users.id')
+        ->select('pelaksanaan_ta.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.pelaksana_ta',compact('pelaksana_ta','sortBy', 'sortOrder'));
+    }
+
+    public function lahan_praktek(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $lahan_praktek = DB::table('lahan_praktek')
+        ->join('users', 'lahan_praktek.user_id', '=', 'users.id')
+        ->select('lahan_praktek.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.lahanpraktek',compact('lahan_praktek','sortBy', 'sortOrder'));
+    }
+
+    public function kinerjaDTPS(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $kinerjaDTPS = DB::table('kinerja_dtps')
+        ->join('users', 'kinerja_dtps.user_id', '=', 'users.id')
+        ->select('kinerja_dtps.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.kinerja_dtps',compact('kinerjaDTPS','sortBy', 'sortOrder'));
+    }
+
+    public function tenaga_kependidikan(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $tenaga_kependidikan = DB::table('profil_tenaga_kependidikan')
+        ->join('users', 'profil_tenaga_kependidikan.user_id', '=', 'users.id')
+        ->select('profil_tenaga_kependidikan.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.tenaga_kependidikan',compact('tenaga_kependidikan','sortBy', 'sortOrder'));
+    }
+
+    public function rekognisi_tenaga_kependidikan(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $rekognisi_tenaga_kependidikan = DB::table('rekognisi_tenaga_kependidikan')
+        ->join('users', 'rekognisi_tenaga_kependidikan.user_id', '=', 'users.id')
+        ->select('rekognisi_tenaga_kependidikan.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.rekognisi_tenaga_kependidikan',compact('rekognisi_tenaga_kependidikan','sortBy', 'sortOrder'));
+    }
+
+    public function penelitian_dosen(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $penelitian_dosen = DB::table('penelitian_dosen')
+        ->join('users', 'penelitian_dosen.user_id', '=', 'users.id')
+        ->select('penelitian_dosen.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.penelitian_dosen',compact('penelitian_dosen','sortBy', 'sortOrder'));
+    }
+
+    public function penelitian_mahasiswa(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $penelitian_mahasiswa = DB::table('penelitian_mahasiswa')
+        ->join('users', 'penelitian_mahasiswa.user_id', '=', 'users.id')
+        ->select('penelitian_mahasiswa.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.penelitian_mahasiswa',compact('penelitian_mahasiswa','sortBy', 'sortOrder'));
+    }
+
+    public function publikasi_karya_ilmiah(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $publikasi_karya_ilmiah = DB::table('publikasi_karya_ilmiah')
+        ->join('users', 'publikasi_karya_ilmiah.user_id', '=', 'users.id')
+        ->select('publikasi_karya_ilmiah.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.publikasi_karya_ilmiah',compact('publikasi_karya_ilmiah','sortBy', 'sortOrder'));
+    }
+
+    public function luaran_karya_ilmiah(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $luaran_karya_ilmiah = DB::table('luaran_karya_ilmiah')
+        ->join('users', 'luaran_karya_ilmiah.user_id', '=', 'users.id')
+        ->select('luaran_karya_ilmiah.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.luaran_karya_ilmiah',compact('luaran_karya_ilmiah','sortBy', 'sortOrder'));
+    }
+
+    public function sitasi_luaran_pd(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $sitasi_luaran_pd = DB::table('sitasi_luaran_penelitian_dosen')
+        ->join('users', 'sitasi_luaran_penelitian_dosen.user_id', '=', 'users.id')
+        ->select('sitasi_luaran_penelitian_dosen.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.luaranPd',compact('sitasi_luaran_pd','sortBy', 'sortOrder'));
+    }
+
+    public function pkm_dosen(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $pkm_dosen = DB::table('pkm_dosen')
+        ->join('users', 'pkm_dosen.user_id', '=', 'users.id')
+        ->select('pkm_dosen.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.pkm_dosen',compact('pkm_dosen','sortBy', 'sortOrder'));
+    }
+
+    public function pkm_mahasiswa(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $pkm_mahasiswa = DB::table('pkm_mahasiswa')
+        ->join('users', 'pkm_mahasiswa.user_id', '=', 'users.id')
+        ->select('pkm_mahasiswa.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.pkm_mahasiswa',compact('pkm_mahasiswa','sortBy', 'sortOrder'));
+    }
+
+    public function publikasi_ki_pkm(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $publikasi_ki_pkm = DB::table('publikasi_karya_ilmiah_pkm')
+        ->join('users', 'publikasi_karya_ilmiah_pkm.user_id', '=', 'users.id')
+        ->select('publikasi_karya_ilmiah_pkm.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.publikasi_ki_pkm',compact('publikasi_ki_pkm','sortBy', 'sortOrder'));
+    }
+
+    public function luaran_ki_pkm(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $luaran_ki_pkm = DB::table('luaran_karya_ilmiah_pkm')
+        ->join('users', 'luaran_karya_ilmiah_pkm.user_id', '=', 'users.id')
+        ->select('luaran_karya_ilmiah_pkm.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.luaran_ki_pkm',compact('luaran_ki_pkm','sortBy', 'sortOrder'));
+    }
+
+    public function sitasi_luaran_pkm_dosen(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'nama_user'); // Default: Sort by nama_user
+        $sortOrder = $request->get('sort_order', 'asc'); // Default: Ascending
+
+        $sitasi_luaran_pkm_dosen = DB::table('sitasi_luaran_pkm_dosen')
+        ->join('users', 'sitasi_luaran_pkm_dosen.user_id', '=', 'users.id')
+        ->select('sitasi_luaran_pkm_dosen.*', 'users.name as nama_user')
+        ->orderBy($sortBy, $sortOrder)
+        ->get();
+
+        return view('admin.analisis.sitasi_luaran_pkm_dosen',compact('sitasi_luaran_pkm_dosen','sortBy', 'sortOrder'));
     }
 }

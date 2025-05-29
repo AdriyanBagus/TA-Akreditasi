@@ -32,6 +32,10 @@
                             <x-nav-link :href="route('form.settings')" :active="request()->routeIs('show')">
                                 {{ __('Form Setting') }}
                             </x-nav-link>
+
+                            <x-nav-link :href="route('generator')" :active="request()->routeIs('show')">
+                                {{ __('Tambah Form Baru') }}
+                            </x-nav-link>
                         </div>
                     @endif
                 @endauth
