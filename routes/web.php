@@ -35,6 +35,7 @@ use App\Http\Controllers\SitasiLuaranPkmDosenController;
 use App\Http\Controllers\LuaranKaryaIlmiahController;
 use App\Http\Controllers\LuaranKaryaIlmiahPkmController;
 use App\Http\Controllers\KerjasamaController;
+use App\Http\Controllers\KomentarController;
 
 Route::get('/', function () {
     return view('login.index');
@@ -73,6 +74,7 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::get('/ketersediaandokumen', [KetersediaanDokumenController::class, 'show'])->middleware([CheckFormStatus::class . ':Ketersediaan Dokumen'])->name('pages.ketersediaan_dokumen');
     Route::post('/ketersediaandokumen', [KetersediaanDokumenController::class, 'add'])->name('pages.ketersediaan_dokumen.add');
     Route::put('/ketersediaandokumen/{id}', [KetersediaanDokumenController::class, 'update'])->name('pages.ketersediaan_dokumen.update');
+    Route::delete('/ketersediaandokumen/{id}', [KetersediaanDokumenController::class, 'destroy'])->name('pages.ketersediaan_dokumen.destroy');
     
     Route::get('/profildosen', [ProfilDosenController::class, 'show'])->middleware([CheckFormStatus::class . ':Profil Dosen'])->name('pages.profil_dosen');
     Route::post('/profildosen', [ProfilDosenController::class, 'add'])->name('pages.profil_dosen.add');
@@ -129,42 +131,42 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::put('/penelitianmahasiswa/{id}', [PenelitianMahasiswaController::class, 'update'])->name('pages.penelitian_mahasiswa.update');
     Route::delete('/penelitianmahasiswa/{id}', [PenelitianMahasiswaController::class, 'destroy'])->name('pages.penelitian_mahasiswa.destroy');
 
-    Route::get('/publikasikaryailmiah', [PublikasiKaryaIlmiahController::class, 'show'])->name('pages.publikasi_karya_ilmiah');
+    Route::get('/publikasikaryailmiah', [PublikasiKaryaIlmiahController::class, 'show'])->middleware([CheckFormStatus::class . ':Publikasi Karya Ilmiah'])->name('pages.publikasi_karya_ilmiah');
     Route::post('/publikasikaryailmiah', [PublikasiKaryaIlmiahController::class, 'add'])->name('pages.publikasi_karya_ilmiah.add');
     Route::put('/publikasikaryailmiah/{id}', [PublikasiKaryaIlmiahController::class, 'update'])->name('pages.publikasi_karya_ilmiah.update');
     Route::delete('/publikasikaryailmiah/{id}', [PublikasiKaryaIlmiahController::class, 'destroy'])->name('pages.publikasi_karya_ilmiah.destroy');
 
-    Route::get('/luarankaryailmiah', [LuaranKaryaIlmiahController::class, 'show'])->name('pages.luaran_karya_ilmiah');
+    Route::get('/luarankaryailmiah', [LuaranKaryaIlmiahController::class, 'show'])->middleware([CheckFormStatus::class . ':Luaran Karya Ilmiah'])->name('pages.luaran_karya_ilmiah');
     Route::post('/luarankaryailmiah', [LuaranKaryaIlmiahController::class, 'add'])->name('pages.luaran_karya_ilmiah.add');
     Route::put('/luarankaryailmiah/{id}', [LuaranKaryaIlmiahController::class, 'update'])->name('pages.luaran_karya_ilmiah.update');
     Route::delete('/luarankaryailmiah/{id}', [LuaranKaryaIlmiahController::class, 'destroy'])->name('pages.luaran_karya_ilmiah.destroy');
 
-    Route::get('/sitasiluaranpenelitiandosen', [SitasiLuaranPenelitianDosenController::class, 'show'])->name('pages.sitasi_luaran_penelitian_dosen');
+    Route::get('/sitasiluaranpenelitiandosen', [SitasiLuaranPenelitianDosenController::class, 'show'])->middleware([CheckFormStatus::class . ':Sitasi Luaran Penelitian Dosen'])->name('pages.sitasi_luaran_penelitian_dosen');
     Route::post('/sitasiluaranpenelitiandosen', [SitasiLuaranPenelitianDosenController::class, 'add'])->name('pages.sitasi_luaran_penelitian_dosen.add');
     Route::put('/sitasiluaranpenelitiandosen/{id}', [SitasiLuaranPenelitianDosenController::class, 'update'])->name('pages.sitasi_luaran_penelitian_dosen.update');
     Route::delete('/sitasiluaranpenelitiandosen/{id}', [SitasiLuaranPenelitianDosenController::class, 'destroy'])->name('pages.sitasi_luaran_penelitian_dosen.destroy');
 
-    Route::get('/pkmmahasiswa', [PkmMahasiswaController::class, 'show'])->name('pages.pkm_mahasiswa');
+    Route::get('/pkmmahasiswa', [PkmMahasiswaController::class, 'show'])->middleware([CheckFormStatus::class . ':PKM Mahasiswa'])->name('pages.pkm_mahasiswa');
     Route::post('/pkmmahasiswa', [PkmMahasiswaController::class, 'add'])->name('pages.pkm_mahasiswa.add');
     Route::put('/pkmmahasiswa/{id}', [PkmMahasiswaController::class, 'update'])->name('pages.pkm_mahasiswa.update');
     Route::delete('/pkmmahasiswa/{id}', [PkmMahasiswaController::class, 'destroy'])->name('pages.pkm_mahasiswa.destroy');
 
-    Route::get('/pkmdosen', [PkmDosenController::class, 'show'])->name('pages.pkm_dosen');
+    Route::get('/pkmdosen', [PkmDosenController::class, 'show'])->middleware([CheckFormStatus::class . ':PKM Dosen'])->name('pages.pkm_dosen');
     Route::post('/pkmdosen', [PkmDosenController::class, 'add'])->name('pages.pkm_dosen.add');
     Route::put('/pkmdosen/{id}', [PkmDosenController::class, 'update'])->name('pages.pkm_dosen.update');
     Route::delete('/pkmdosen/{id}', [PkmDosenController::class, 'destroy'])->name('pages.pkm_dosen.destroy');
 
-    Route::get('/publikasikaryailmiahpkm', [PublikasiKaryaIlmiahPkmController::class, 'show'])->name('pages.publikasi_karya_ilmiah_pkm');
+    Route::get('/publikasikaryailmiahpkm', [PublikasiKaryaIlmiahPkmController::class, 'show'])->middleware([CheckFormStatus::class . ':Publikasi Karya Ilmiah PKM'])->name('pages.publikasi_karya_ilmiah_pkm');
     Route::post('/publikasikaryailmiahpkm', [PublikasiKaryaIlmiahPkmController::class, 'add'])->name('pages.publikasi_karya_ilmiah_pkm.add');
     Route::put('/publikasikaryailmiahpkm/{id}', [PublikasiKaryaIlmiahPkmController::class, 'update'])->name('pages.publikasi_karya_ilmiah_pkm.update');
     Route::delete('/publikasikaryailmiahpkm/{id}', [PublikasiKaryaIlmiahPkmController::class, 'destroy'])->name('pages.publikasi_karya_ilmiah_pkm.destroy');
 
-    Route::get('/luarankaryailmiahpkm', [LuaranKaryaIlmiahPkmController::class, 'show'])->name('pages.luaran_karya_ilmiah_pkm');
+    Route::get('/luarankaryailmiahpkm', [LuaranKaryaIlmiahPkmController::class, 'show'])->middleware([CheckFormStatus::class . ':Luaran Karya Ilmiah PKM'])->name('pages.luaran_karya_ilmiah_pkm');
     Route::post('/luarankaryailmiahpkm', [LuaranKaryaIlmiahPkmController::class, 'add'])->name('pages.luaran_karya_ilmiah_pkm.add');
     Route::put('/luarankaryailmiahpkm/{id}', [LuaranKaryaIlmiahPkmController::class, 'update'])->name('pages.luaran_karya_ilmiah_pkm.update');
     Route::delete('/luarankaryailmiahpkm/{id}', [LuaranKaryaIlmiahPkmController::class, 'destroy'])->name('pages.luaran_karya_ilmiah_pkm.destroy');
 
-    Route::get('/sitasiluaranpkmdosen', [SitasiLuaranPkmDosenController::class, 'show'])->name('pages.sitasi_luaran_pkm_dosen');
+    Route::get('/sitasiluaranpkmdosen', [SitasiLuaranPkmDosenController::class, 'show'])->middleware([CheckFormStatus::class . ':Sitasi Luaran PKM Dosen'])->name('pages.sitasi_luaran_pkm_dosen');
     Route::post('/sitasiluaranpkmdosen', [SitasiLuaranPkmDosenController::class, 'add'])->name('pages.sitasi_luaran_pkm_dosen.add');
     Route::put('/sitasiluaranpkmdosen/{id}', [SitasiLuaranPkmDosenController::class, 'update'])->name('pages.sitasi_luaran_pkm_dosen.update');
     Route::delete('/sitasiluaranpkmdosen/{id}', [SitasiLuaranPkmDosenController::class, 'destroy'])->name('pages.sitasi_luaran_pkm_dosen.destroy');
@@ -207,6 +209,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     Route::get('/form-settings', [FormSettingController::class, 'index'])->name('form.settings');
     Route::post('/form-settings/{id}', [FormSettingController::class, 'update'])->name('form.settings.update');
+
+    //Route untuk komentar
+    Route::post('/komentar', [KomentarController::class, 'store'])->name('admin.komentar');
+    Route::delete('/admin/komentar/{id}', [KomentarController::class, 'destroy'])->name('admin.komentar.destroy');
 
 
     // Route untuk tampilan analisis

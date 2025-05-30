@@ -39,6 +39,51 @@
                         </div>
                     @endif
                 @endauth
+
+                @if (auth()->user()->usertype !== 'admin')
+                    <div class="sm:flex sm:items-center sm:ms-6">
+                        <div class="relative" x-data="{ open: false }" @click.outside="open = false"
+                            @close.stop="open = false">
+                            <div @click="open = ! open">
+                                <a href="#" class="text-gray-700 hover:text-gray-900">
+                                    <i class="fa-solid fa-bell mr-2"></i>
+                                </a>
+                            </div>
+                            <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="opacity-0 scale-95"
+                                x-transition:enter-end="opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="opacity-100 scale-100"
+                                x-transition:leave-end="opacity-0 scale-95"
+                                class="absolute mt-2 w-64 rounded-md shadow-lg" style="display: none;">
+                                <div class="rounded-md ring-1 ring-black ring-opacity-5 bg-white py-1">
+                                    @php
+                                        $notifications = App\Models\Notifikasi::where('prodi_id',auth()->user()->id,)
+                                            ->orderByDesc('created_at')
+                                            ->get();
+
+                                        $groupedNotifications = $notifications->groupBy(function ($item) {
+                                            return $item->created_at->format('d M Y');
+                                        });
+
+                                    @endphp
+                                    @if ($groupedNotifications->isNotEmpty())
+                                        @foreach ($groupedNotifications as $date => $items)
+                                            <h3 class="px-4 pt-3 text-xs font-semibold text-black ">{{ $date }}</h3>
+                                            @foreach ($items as $notification)
+                                                <p class="px-6 py-1 text-xs text-gray-700">
+                                                    {{ $notification->pesan }}
+                                                </p>
+                                            @endforeach
+                                        @endforeach
+                                    @else
+                                        <p class="px-4 py-2 text-sm text-black-700">Tidak ada notifikasi</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                
             </div>
 

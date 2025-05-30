@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Settings;
+use App\Models\Komentar;
 use App\Models\VisiMisi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,9 +20,14 @@ class VisiMisiController extends Controller
             return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
         }
     
-        $visi_misi = VisiMisi::where('user_id', Auth::user()->id)->get();
+        $visi_misi = VisiMisi::where('user_id', Auth::user()->id)
+                            ->whereYear('created_at', date('Y'))
+                            ->get();
+
+        $tabel = (new VisiMisi())->getTable(); 
+        $komentar = Komentar::where('nama_tabel', $tabel)->where('prodi_id', Auth::user()->id)->get();
     
-        return view('pages.visi_misi', compact('visi_misi'));
+        return view('pages.visi_misi', compact('visi_misi', 'komentar'));
     }
 
     public function add(Request $request)

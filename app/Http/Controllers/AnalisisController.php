@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Komentar;
+use App\Models\User;
 
 class AnalisisController extends Controller
 {
@@ -21,7 +23,12 @@ class AnalisisController extends Controller
             ->orderBy($sortBy, $sortOrder)
             ->get();
 
-        return view('admin.analisis.visimisi', compact('visimisi', 'sortBy', 'sortOrder'));
+        //Komentar
+        $tabel = (new VisiMisi())->getTable(); 
+        $prodi= User::select('id','name')->where('usertype','!=','admin')->get();
+        $komentar = Komentar::where('nama_tabel', $tabel)->get();
+
+        return view('admin.analisis.visimisi', compact('visimisi', 'sortBy', 'sortOrder', 'tabel', 'prodi', 'komentar'));
     }
 
     public function kerjasama(Request $request)
