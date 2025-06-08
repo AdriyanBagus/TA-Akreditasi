@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BebanKinerjaDosen;
+use App\Models\TahunAkademik;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,11 +16,17 @@ class BebanKinerjaDosenController extends Controller
 
     public function show()
     {
+        $tahunAktifId = TahunAkademik::where('is_active', true)->value('id');
+
         if (Auth::user()->id) {
-            $beban_kinerja_dosen = BebanKinerjaDosen::where('user_id', Auth::user()->id)->get();
+            $beban_kinerja_dosen = BebanKinerjaDosen::where('user_id', Auth::user()->id)
+                ->where('tahun_akademik_id', $tahunAktifId)
+                ->get();
         }
+
         return view('pages.beban_kinerja_dosen', compact('beban_kinerja_dosen'));
     }
+
 
     public function add(Request $request)
     {
@@ -34,6 +41,7 @@ class BebanKinerjaDosenController extends Controller
             'jumlah_sks',
             'rata_rata_sks'
         ];
+
         foreach ($numericFields as $field) {
             $value = $request->input($field);
 
@@ -44,8 +52,12 @@ class BebanKinerjaDosenController extends Controller
             $request[$field] = $value === '' ? null : $value;
         }
 
+        // Ambil tahun akademik aktif
+        $tahunAktif = TahunAkademik::where('is_active', true)->first();
+
         BebanKinerjaDosen::create([
             'user_id' => Auth::user()->id,
+            'tahun_akademik_id' => $tahunAktif->id, // ✅ Tambahkan ini
             'nama' => $request->nama,
             'nidn' => $request->nidn,
             'ps_sendiri' => $request->ps_sendiri,
@@ -58,8 +70,9 @@ class BebanKinerjaDosenController extends Controller
             'rata_rata_sks' => $request->rata_rata_sks
         ]);
 
-        return redirect()->back()->with('success', 'Data Evaluasi Pelaksanaan berhasil ditambahkan!');
+        return redirect()->back()->with('success', 'Data Beban Kinerja Dosen berhasil ditambahkan!');
     }
+
 
     public function update(Request $request, $id)
     {

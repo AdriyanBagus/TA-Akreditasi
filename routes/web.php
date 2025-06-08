@@ -36,6 +36,7 @@ use App\Http\Controllers\LuaranKaryaIlmiahController;
 use App\Http\Controllers\LuaranKaryaIlmiahPkmController;
 use App\Http\Controllers\KerjasamaController;
 use App\Http\Controllers\KomentarController;
+use App\Http\Controllers\TahunAkademikController;
 
 Route::get('/', function () {
     return view('login.index');
@@ -214,6 +215,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::post('/komentar', [KomentarController::class, 'store'])->name('admin.komentar');
     Route::delete('/admin/komentar/{id}', [KomentarController::class, 'destroy'])->name('admin.komentar.destroy');
 
+    //route tahun_akademik
+    Route::get('/tahun-akademik', [TahunAkademikController::class, 'index'])->name('tahun.index');
+    Route::post('/tahun-akademik', [TahunAkademikController::class, 'store'])->name('tahun.store');
+    Route::post('/tahun-akademik/{id}/aktifkan', [TahunAkademikController::class, 'setAktif'])->name('tahun.setAktif');
 
     // Route untuk tampilan analisis
     Route::get('/visimisi', [AnalisisController::class, 'visimisi'])->name('visimisi');

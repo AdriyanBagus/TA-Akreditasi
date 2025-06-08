@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\FormSetting;
+use App\Models\menuAdmin;
+use App\Models\menu;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
@@ -253,6 +256,27 @@ EOT;
         File::put($viewFolder . '/edit.blade.php', $editView);
         File::put($viewFolder . '/index.blade.php', "<h1>{$modelName} Index</h1>");
         File::put($viewFolder . '/show.blade.php', "<h1>Show {$modelName}</h1>");
+
+        //  // Tambahan: Simpan form ke form_settings dan menu
+        // $formSetting = FormSetting::firstOrCreate(
+        //     ['form_name' => $request->model_name],
+        //     ['status' => 1]
+        // );
+
+        // $link = 'pages.' . Str::slug($request->model_name, '_');
+        // $menuExists = menu::where('menu', $request->model_name)->exists();
+
+        // if (!$menuExists) {
+        //     $lastMenu = Menu::orderByDesc('id')->first();
+        //     $newId = $lastMenu ? $lastMenu->id + 1 : 1;
+
+        //     Menu::create([
+        //         'menu' => $request->model_name,
+        //         'link' => $link,
+        //         'menu_id' => '2.9.' . $newId,
+        //     ]);
+        // }
+
 
         return redirect('generator')->with('success', 'Form, Model, Controller, dan CRUD berhasil dibuat!');
     }

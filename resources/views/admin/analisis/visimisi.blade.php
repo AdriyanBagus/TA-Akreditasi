@@ -1,8 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Visi dan Misi') }}
-        </h2>
+        <div class="flex items-center space-x-4">
+            <a href="javascript:history.back()"
+                class="inline-flex items-center bg-gray-100 hover:bg-white-200 text-black-700 font-medium px-3 py-1.5 rounded-lg shadow-sm transition duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+                Kembali
+            </a>
+
+            <h2 class="text-xl font-semibold text-gray-800 leading-tight">
+                {{ __('Analilis Ketercapaian') }}
+            </h2>
+        </div>
     </x-slot>
 
     <div class="py-12">

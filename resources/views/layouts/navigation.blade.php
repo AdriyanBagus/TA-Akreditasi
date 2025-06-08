@@ -36,6 +36,10 @@
                             <x-nav-link :href="route('generator')" :active="request()->routeIs('show')">
                                 {{ __('Tambah Form Baru') }}
                             </x-nav-link>
+
+                            <x-nav-link :href="route('tahun.index')" :active="request()->routeIs('show')">
+                                {{ __('Tahun Akademik') }}
+                            </x-nav-link>
                         </div>
                     @endif
                 @endauth
