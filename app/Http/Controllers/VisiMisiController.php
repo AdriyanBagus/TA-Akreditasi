@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Settings;
+use App\Models\TahunAkademik;
 use App\Models\Komentar;
 use App\Models\VisiMisi;
 use Illuminate\Http\Request;
@@ -16,13 +16,13 @@ class VisiMisiController extends Controller
 
     public function show()
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+        $tahunAktifId = TahunAkademik::where('is_active', true)->value('id');
+
+        if (Auth::user()->id) {
+            $visi_misi = VisiMisi::where('user_id', Auth::user()->id)
+                ->where('tahun_akademik_id', $tahunAktifId)
+                ->get();
         }
-    
-        $visi_misi = VisiMisi::where('user_id', Auth::user()->id)
-                            ->whereYear('created_at', date('Y'))
-                            ->get();
 
         $tabel = (new VisiMisi())->getTable(); 
         $komentar = Komentar::where('nama_tabel', $tabel)->where('prodi_id', Auth::user()->id)->get();
@@ -38,11 +38,15 @@ class VisiMisiController extends Controller
             'deskripsi' => 'required|string',
         ]);
 
+        // Ambil tahun akademik aktif
+        $tahunAktif = TahunAkademik::where('is_active', true)->first();
+
         VisiMisi::create([
             'visi' => $request->visi,
             'misi' => $request->misi,
             'deskripsi' => $request->deskripsi,
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::user()->id,
+            'tahun_akademik_id' => $tahunAktif->id, // ✅ Tambahkan ini
         ]);
 
         return redirect()->back()->with('success', 'Data Visi & Misi berhasil ditambahkan!');

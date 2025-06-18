@@ -223,62 +223,133 @@ EOT;
 
         file_put_contents($controllerPath, $controllerContent);
 
-        // 5. Generate view folder + files
-        $viewFolder = resource_path('views/' . Str::kebab(Str::plural($modelName)));
+        // 5. Generate view folder jika belum ada
+        $viewFolder = resource_path('views/generated');
         if (!File::exists($viewFolder)) {
             File::makeDirectory($viewFolder, 0755, true);
         }
 
-        $formFields = '';
+        // Nama file view berdasarkan model (snake_case)
+        $viewFileName = Str::snake($modelName) . '.blade.php';
+
+        // Buat baris tabel untuk setiap field
+        $tableHeaders = '';
+        $tableData = '';
+        $modalFields = '';
         foreach ($request->field_names as $name) {
-            $formFields .= "<div class='form-group'>
-            <label for='$name'>$name</label>
-            <input type='text' name='$name' class='form-control' value='{{ old('$name', \$item->$name ?? '') }}'>
-        </div>\n";
+            $tableHeaders .= "<th class=\"px-4 py-2 border text-sm\">" . ucfirst($name) . "</th>\n";
+            $tableData .= "<td class=\"px-4 py-2 border text-sm\">{{ \$item->$name }}</td>\n";
+            $modalFields .= <<<HTML
+    <div class="mb-3">
+        <label for="$name" class="form-label">{$name}:</label>
+        <input type="text" class="form-control" id="$name" name="$name" value="{{ session('$name') }}" required>
+    </div>
+
+HTML;
         }
 
-        $createView = "<h1>Create {$modelName}</h1>
-<form action='{{ route('{$tableName}.store') }}' method='POST'>
-    @csrf
-    $formFields
-    <button type='submit' class='btn btn-primary'>Save</button>
-</form>";
+        $bladeContent = <<<BLADE
+<x-app-layout>
+    <x-slot name="header">
+        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Analisis {$modelName}') }}
+            </h2>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Tambah
+            </button>
+        </div>
+    </x-slot>
 
-        $editView = "<h1>Edit {$modelName}</h1>
-<form action='{{ route('{$tableName}.update', \$item->id) }}' method='POST'>
-    @csrf
-    @method('PUT')
-    $formFields
-    <button type='submit' class='btn btn-primary'>Update</button>
-</form>";
+    <div class="py-4">
+        <div class="max-w-10xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl rounded-lg p-6">
+                <table class="min-w-full bg-white border border-gray-500">
+                    <thead>
+                        <tr>
+                            <th class="px-2 py-2 border text-sm">No</th>
+                            {$tableHeaders}
+                            <th class="px-4 py-2 border text-sm">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (\${Str::camel(Str::plural($modelName))} as \$item)
+                            <tr>
+                                <td class="px-1 py-2 border text-sm">{{ \$loop->iteration }}</td>
+                                {$tableData}
+                                <td class="px-1 py-3 border flex flex-col items-center space-y-2">
+                                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm" data-bs-toggle="modal" data-bs-target="#exampleModal{{ \$item->id }}">
+                                        Edit
+                                    </button>
+                                    <form action="{{ route('pages.{$viewFileName}.destroy', \$item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <div class="modal fade" id="exampleModal{{ \$item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Data</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('pages.{$viewFileName}.update', \$item->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="hidden" name="id" value="{{ \$item->id }}">
+                                                {$modalFields}
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </tbody>
+                </table>
 
-        File::put($viewFolder . '/create.blade.php', $createView);
-        File::put($viewFolder . '/edit.blade.php', $editView);
-        File::put($viewFolder . '/index.blade.php', "<h1>{$modelName} Index</h1>");
-        File::put($viewFolder . '/show.blade.php', "<h1>Show {$modelName}</h1>");
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('pages.{$viewFileName}.add') }}" method="POST">
+                                    @csrf
+                                    {$modalFields}
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Tambah</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        //  // Tambahan: Simpan form ke form_settings dan menu
-        // $formSetting = FormSetting::firstOrCreate(
-        //     ['form_name' => $request->model_name],
-        //     ['status' => 1]
-        // );
+                @if (\${Str::camel(Str::plural($modelName))}->isEmpty())
+                    <p class="text-center text-gray-500 mt-4">Tidak ada data.</p>
+                @endif
+            </div>
+        </div>
+    </div>
+</x-app-layout>
+BLADE;
 
-        // $link = 'pages.' . Str::slug($request->model_name, '_');
-        // $menuExists = menu::where('menu', $request->model_name)->exists();
+        // Simpan ke file
+        File::put($viewFolder . '/' . $viewFileName, $bladeContent);
 
-        // if (!$menuExists) {
-        //     $lastMenu = Menu::orderByDesc('id')->first();
-        //     $newId = $lastMenu ? $lastMenu->id + 1 : 1;
-
-        //     Menu::create([
-        //         'menu' => $request->model_name,
-        //         'link' => $link,
-        //         'menu_id' => '2.9.' . $newId,
-        //     ]);
-        // }
-
-
-        return redirect('generator')->with('success', 'Form, Model, Controller, dan CRUD berhasil dibuat!');
+        return redirect('generator')->with('success', "File {$viewFileName} berhasil dibuat!");
     }
 
 }

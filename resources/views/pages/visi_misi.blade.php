@@ -12,6 +12,30 @@
 
     <div class="py-4">
         <div class="max-w-10xl mx-auto sm:px-6 lg:px-8">
+            <form action="{{ route('visimisi.import.csv') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="file" name="csv_file" accept=".csv" required>
+                <button type="submit">Import CSV</button>
+
+                @if(session('import_errors'))
+                    <div class="alert alert-warning">
+                        <strong>Beberapa baris gagal diimpor:</strong>
+                        <ul>
+                            @foreach(session('import_errors') as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+            </form>
+
             <div class="bg-white overflow-hidden shadow-xl rounded-lg p-6">
                 <table class="min-w-full bg-white border border-gray-500">
                     <thead>
@@ -70,16 +94,18 @@
 
                                                 <div class="mb-3">
                                                     <label for="visi" class="form-label">Visi:</label>
-                                                    <input type="text" class="form-control" id="visi"
-                                                        name="visi" value="{{ $visimisi->visi }}" required>
+                                                    <input type="text" class="form-control" id="visi" name="visi"
+                                                        value="{{ $visimisi->visi }}" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="misi" class="form-label">Misi:</label>
-                                                    <textarea class="form-control" id="misi" name="misi" required>{{ $visimisi->misi }}</textarea>
+                                                    <textarea class="form-control" id="misi" name="misi"
+                                                        required>{{ $visimisi->misi }}</textarea>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="deskripsi" class="form-label">Deskripsi:</label>
-                                                    <textarea class="form-control" id="deskripsi" name="deskripsi" required>{{ $visimisi->deskripsi }}</textarea>
+                                                    <textarea class="form-control" id="deskripsi" name="deskripsi"
+                                                        required>{{ $visimisi->deskripsi }}</textarea>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
@@ -116,11 +142,13 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="misi" class="form-label">Misi:</label>
-                                        <textarea class="form-control" id="misi" name="misi" value="{{ session('misi') }}" required></textarea>
+                                        <textarea class="form-control" id="misi" name="misi"
+                                            value="{{ session('misi') }}" required></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label for="deskripsi" class="form-label">Deskripsi:</label>
-                                        <textarea class="form-control" id="deskripsi" name="deskripsi" value="{{ session('deskripsi') }}" required></textarea>
+                                        <textarea class="form-control" id="deskripsi" name="deskripsi"
+                                            value="{{ session('deskripsi') }}" required></textarea>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
@@ -154,7 +182,8 @@
                                     <div>
                                         <p class="font-semibold text-sm">Admin</p>
                                         <p class="text-xs text-gray-500">
-                                            {{ $item->created_at->format('d F Y - H:i') }} WIB</p>
+                                            {{ $item->created_at->format('d F Y - H:i') }} WIB
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="text-sm mt-1 whitespace-pre-line">
@@ -164,13 +193,13 @@
                         @endforeach
                     @else
                         <p class="text-center text-gray-500 mt-4">Belum ada komentar.</p>
-                    @endif  
+                    @endif
                 </ul>
             </div>
         </div>
     </div>
     <script>
-        document.getElementById('exampleModal').addEventListener('show.bs.modal', function(event) {
+        document.getElementById('exampleModal').addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget; // Button yang memicu modal
             const recipient = button.getAttribute('data-whatever'); // Ambil data dari button
             const modalTitle = this.querySelector('.modal-title');

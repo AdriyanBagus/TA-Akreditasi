@@ -33,12 +33,6 @@ class FormSettingController extends Controller
 
     public function update(Request $request, $id)
     {
-        // $form = Settings::findOrFail($id);
-        // $form->status = $request->status;
-        // $form->save();
-
-        // return redirect()->back()->with('success', 'Status form berhasil diperbarui!');
-
 
         // Update status form
         $form = Settings::findOrFail($id);

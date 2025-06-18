@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up()
     {
         $tables = [
@@ -14,9 +15,6 @@ return new class extends Migration {
             'pelaksanaan_ta',
             'kinerja_dtps',
             'kerjasama',
-            'kerjasama_pendidikan',
-            'kerjasama_penelitian',
-            'kerjasama_pengabdian_kepada_masyarakat',
             'ketersediaan_dokumen',
             'profil_dosen_tidak_tetap',
             'profil_tenaga_kependidikan',
@@ -31,6 +29,8 @@ return new class extends Migration {
             'pkm_dosen',
             'pkm_mahasiswa',
             'visi_misi',
+            'lahan_praktek',
+            'rekognisi_tenaga_kependidikan'
         ];
 
         foreach ($tables as $table) {
@@ -45,15 +45,12 @@ return new class extends Migration {
     public function down()
     {
         $tables = [
-            'beban_kinerja_dosen',
+             'beban_kinerja_dosen',
             'evaluasi_pelaksanaan',
             'profil_dosen',
             'pelaksanaan_ta',
             'kinerja_dtps',
             'kerjasama',
-            // 'kerjasama_pendidikan',
-            // 'kerjasama_penelitian',
-            // 'kerjasama_pengabdian_kepada_masyarakat',
             'ketersediaan_dokumen',
             'profil_dosen_tidak_tetap',
             'profil_tenaga_kependidikan',
@@ -68,6 +65,8 @@ return new class extends Migration {
             'pkm_dosen',
             'pkm_mahasiswa',
             'visi_misi',
+            'lahan_praktek',
+            'rekognisi_tenaga_kependidikan'
         ]; // ulangi daftar tabel di sini
 
         foreach ($tables as $table) {

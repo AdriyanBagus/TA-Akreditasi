@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ImportExportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckFormStatus;
 use App\Http\Controllers\FormGeneratorController;
@@ -180,6 +181,12 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
 Route::get('/form-off', function () {
     return view('form_off');
 })->name('form.off');
+
+// import export route
+Route::post('/visimisi/import-csv', [ImportExportController::class, 'importVisiMisiCSV'])->name('visimisi.import.csv');
+Route::get('/visimisi/export-csv', [ImportExportController::class, 'exportVisiMisiCSV'])->name('visimisi.export.csv');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

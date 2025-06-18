@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('tahun_akademik', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_tahun'); // contoh: 2024/2025
-            $table->boolean('is_aktif')->default(false);
+            $table->string('tahun'); // contoh: 2024/2025
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
         });
     }
