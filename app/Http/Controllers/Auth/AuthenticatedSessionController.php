@@ -28,12 +28,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if($request->user()->usertype === 'admin'){
+        $usertype = Auth::user()->usertype;
 
-            return redirect('admin/dashboard');
+        if ($usertype == 'admin') {
+            return redirect()->intended('admin/dashboard')->with('success', 'Selamat Datang SPMI');
+        } elseif ($usertype == 'dosen') {
+            return redirect()->intended('dosen/dashboard');
+        } else { 
+            return redirect()->intended('dashboard');
         }
-
-        return redirect()->intended(route('dashboard'));
     }
 
     /**

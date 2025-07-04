@@ -30,7 +30,7 @@ class KomentarController extends Controller
             'nama_tabel' => $request->nama_tabel,
         ]);
 
-        return redirect()->back()->with('success', 'Komentar berhasil di tambahkan');
+        return redirect()->back()->with('success-komentar', 'Komentar berhasil di tambahkan');
     }
 
     public function destroy($id)
@@ -38,7 +38,7 @@ class KomentarController extends Controller
         $komentar = Komentar::findOrFail($id);
         $komentar->delete();
 
-        return redirect()->back()->with('success', 'Komentar berhasil dihapus.');
+        return redirect()->back()->with('success-delete', 'Komentar berhasil dihapus.');
     }
 
 }

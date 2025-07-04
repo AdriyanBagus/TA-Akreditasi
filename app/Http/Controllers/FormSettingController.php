@@ -51,7 +51,7 @@ class FormSettingController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Form settings updated.');
+        return redirect()->back()->with('success','Izin Form diubah');
 
     }
 }

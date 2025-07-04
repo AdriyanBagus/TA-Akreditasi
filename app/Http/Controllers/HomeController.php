@@ -25,7 +25,7 @@ class HomeController extends Controller
 
     public function show()
     {
-        $users = User::where('usertype', '!=', 'admin')->get();
+        $users = User::whereNotIn('usertype', ['admin', 'dosen'])->get();
         return view('admin.show', compact('users'));
     }
 
@@ -44,7 +44,7 @@ class HomeController extends Controller
             'usertype' => $request->usertype,
         ]);
 
-        return redirect()->route('admin.show')->with('success', 'User berhasil diperbarui');
+        return redirect()->route('admin.show')->with('success-edit', 'User berhasil diperbarui');
     }
 
     public function destroy($id)
@@ -52,7 +52,7 @@ class HomeController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('admin.show')->with('success', 'User berhasil dihapus');
+        return redirect()->route('admin.show')->with('delete', 'User berhasil dihapus');
     }
 
 }

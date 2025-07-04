@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Validation\Rule;
 
 class RegisteredUserController extends Controller
 {
@@ -31,20 +32,32 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'usertype' => ['required', Rule::in(['admin', 'user', 'dosen'])], // Validasi usertype
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'usertype' => $request->usertype,
         ]);
 
-        event(new Registered($user));
 
-        Auth::login($user);
+        // event(new Registered($user));
 
-        return redirect(route('admin.dashboard', absolute: false));
+        // Auth::login($user);
+
+        $loggedInUser = Auth::user();
+
+        if ($loggedInUser->usertype === 'admin') {
+            return redirect()->route('admin.tambah-user')->with('success', 'User berhasil dibuat.');
+        } elseif ($loggedInUser->usertype === 'dosen') {
+            return redirect()->route('dosen.dashboard')->with('success', 'User berhasil dibuat.');
+        } else {
+            return redirect()->route('pages.tambah-dosen')->with('success', 'User berhasil dibuat.');
+        }
+
     }
 }

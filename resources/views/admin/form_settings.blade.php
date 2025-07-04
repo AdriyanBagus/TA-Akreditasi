@@ -136,4 +136,14 @@
             document.getElementById(`form-${formId}`).submit();
         }
     </script>
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                title: 'Berhasil Diubah',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
 </x-app-layout>

@@ -16,11 +16,15 @@ class User
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->usertype != 'user')
-        {
-            return redirect('admin/dashboard');
-        }
+        // if(Auth::user()->usertype != 'user')
+        // {
+        //     return redirect('admin/dashboard');
+        // }
 
+        if (Auth::user()->usertype !== 'user') {
+            abort(403, 'Selain Prodi Tidak Diizinkan');
+        }
         return $next($request);
+
     }
 }

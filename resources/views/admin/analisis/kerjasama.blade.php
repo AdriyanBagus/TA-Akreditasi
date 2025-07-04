@@ -32,12 +32,39 @@
                         </option>
                     @endforeach
                 </select>
+
+                <label for="user_id" class="text-sm font-medium text-gray-700">Nama Prodi:</label>
+                <select name="user_id" id="user_id" onchange="this.form.submit()"
+                    class="w-64 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-700 bg-white">
+                    <option value="">Semua Prodi</option>
+                    @foreach($prodi as $item)
+                        <option value="{{ $item->id }}" {{ $userTerpilih == $item->id ? 'selected' : '' }}>
+                            {{ $item->name }}
+                        </option>
+                    @endforeach
+                </select>
             </form>
         </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            <form action="{{ route('kerjasama.export.csv') }}" method="GET" class="mb-4">
+                <input type="hidden" name="tahun" value="{{ $tahunTerpilih }}">
+                <input type="hidden" name="user_id" value="{{ $userTerpilih }}">
+
+                <button type="submit"
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg shadow transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12v9m0 0l-3.5-3.5M12 21l3.5-3.5M12 3v9" />
+                    </svg>
+                    Download CSV
+                </button>
+            </form>
+
             <div class="bg-white overflow-hidden shadow-xl rounded-lg p-6">
                 <table class="min-w-full bg-white border border-gray-500">
                     <thead>
@@ -143,13 +170,14 @@
                                     <small class="text-muted">Ditambahkan pada: {{ $value->created_at }}</small>
                                 </div>
                                 <form action="{{ route('admin.komentar.destroy', $value->id) }}" method="POST"
-                                    onsubmit="return confirm('Yakin ingin menghapus komentar ini?');">
+                                    class="delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-danger ms-3" title="Hapus Komentar">
+                                    <button type="button" class="btn btn-sm btn-danger ms-3 delete-btn" title="Hapus Komentar">
                                         <i class="bi bi-trash"></i> Hapus
                                     </button>
                                 </form>
+
                             </li>
                         @endforeach
                     @else
@@ -159,4 +187,14 @@
             </div>
         </div>
     </div>
+    @if (session('success-komentar'))
+        <script>
+            Swal.fire({
+                title: 'Komentar Terkirim',
+                text: '{{ session('success-komentar') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
 </x-app-layout>

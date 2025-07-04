@@ -74,4 +74,25 @@
             </table>
         </div>
     </div>
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                title: 'Berhasil ditambahkan',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
+    @if (session('success-edit'))
+        <script>
+            Swal.fire({
+                title: 'Berhasil Diaktifkan',
+                text: '{{ session('success-edit') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
 </x-app-layout>

@@ -28,7 +28,7 @@ class TahunAkademikController extends Controller
 
         session(['tahun_akademik_id' => $id]); // simpan di session juga
 
-        return back()->with('success', 'Tahun akademik diaktifkan.');
+        return back()->with('success-edit', 'Tahun akademik diaktifkan.');
     }
 
 }

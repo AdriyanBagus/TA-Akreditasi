@@ -30,4 +30,15 @@
       </div>
     </div>
   </div>
+
+  @if (session('success'))
+        <script>
+            Swal.fire({
+                title: 'Berhasil Login!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
 </x-app-layout>

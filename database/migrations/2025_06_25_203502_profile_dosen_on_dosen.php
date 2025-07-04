@@ -1,0 +1,42 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('profile_dosen', function (Blueprint $table) {
+            $table->id(); // Primary Key
+            $table->unsignedBigInteger('asal_prodi');
+            $table->foreign('asal_prodi')
+                ->references('id')
+                ->on('users') 
+                ->onDelete('restrict');
+            $table->unsignedBigInteger('dosen_id'); // Foreign Key mengacu ke tabel users
+            $table->foreign('dosen_id')
+                  ->references('id')
+                  ->on('dosen') // Mengacu ke tabel users
+                  ->onDelete('cascade'); // Jika user dihapus, data ini ikut terhapus
+            $table->string('nama');
+            $table->string('kualifikasi_pendidikan');
+            $table->string('sertifikasi_pendidik_profesional')->nullable();
+            $table->string('bidang_keahlian');
+            $table->string('bidang_ilmu_prodi');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('profile_dosen');
+    }
+};

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class Admin
+class Dosen
 {
     /**
      * Handle an incoming request.
@@ -16,14 +16,8 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-
-        // if(Auth::user()->usertype != 'admin')
-        // {
-        //     return redirect('dashboard');
-        // }
-
-        if (Auth::user()->usertype !== 'admin') {
-            abort(403, 'Selain admin idak Diizinkan');
+        if (Auth::user()->usertype !== 'dosen') {
+            abort(403, 'Selain Dosen Tidak Diizinkan');
         }
         return $next($request);
 

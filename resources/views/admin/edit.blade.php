@@ -25,13 +25,7 @@
                     </div>
 
                     <!-- Role -->
-                    <div class="mt-4">
-                        <x-input-label for="usertype" :value="__('Role')" />
-                        <select id="usertype" name="usertype" class="block mt-1 w-full border-gray-300">
-                            <option value="admin" {{ $user->usertype == 'admin' ? 'selected' : '' }}>Admin</option>
-                            <option value="user" {{ $user->usertype == 'user' ? 'selected' : '' }}>User</option>
-                        </select>
-                    </div>
+                    <input type="hidden" name="usertype" value="user">
 
                     <div class="flex items-center justify-end mt-4">
                         <x-primary-button>

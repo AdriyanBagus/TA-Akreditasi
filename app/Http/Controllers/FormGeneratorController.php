@@ -21,6 +21,7 @@ class FormGeneratorController extends Controller
 
     public function generate(Request $request)
     {
+        
         $request->validate([
             'model_name' => 'required|string',
             'field_names' => 'required|array',
@@ -36,11 +37,32 @@ class FormGeneratorController extends Controller
             $fields[] = "$name:$type";
         }
 
+        $valuemodelname = $modelName . 's';
+
         // 1. Generate model + migration
         Artisan::call('make:model', [
             'name' => $modelName,
             '--migration' => true,
         ]);
+        
+        // 2. Generate controller resource
+        $controllerClass = "App\\Http\\Controllers\\{$valuemodelname}Controller";
+        Artisan::call('make:controller', [
+            'name' => "{$valuemodelname}Controller",
+            '--resource' => true,
+        ]);
+
+        // 3. Tambahkan route ke routes/admin.php
+        $routeFile = base_path('routes/admin.php');
+        $routeDefinition = "Route::resource('$valuemodelname', $controllerClass::class);";
+
+        // Cek apakah route sudah ada
+        $routeContent = file_exists($routeFile) ? file_get_contents($routeFile) : "<?php\n\n";
+        if (!str_contains($routeContent, $routeDefinition)) {
+            // Tambahkan ke akhir file
+            file_put_contents($routeFile, $routeContent . "\n" . $routeDefinition . "\n");
+        }
+        
 
         // 2. Edit migration file
         $migrationPath = database_path('migrations');
@@ -165,6 +187,15 @@ PHP;
             return "'$field' => 'required'";
         }, $request->field_names));
 
+        // Hapus hanya 1 huruf 's' di akhir jika ada
+if (substr($tableName, -1) === 's') {
+    $ValueView = substr($tableName, 0, -1);
+} else {
+    $ValueView = $tableName;
+}
+
+echo $ValueView;
+
         $controllerContent = <<<EOT
 <?php
 
@@ -178,7 +209,7 @@ class {$modelName}Controller extends Controller
     public function index()
     {
         \$items = $modelName::all();
-        return view('{$tableName}.index', compact('items'));
+        return view('{$ValueView}.index', compact('items'));
     }
 
     public function create()
@@ -251,8 +282,8 @@ HTML;
         $bladeContent = <<<BLADE
 <x-app-layout>
     <x-slot name="header">
-        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <div class="pb-0 card-header d-flex justify-content-between align-items-center">
+            <h2 class="text-xl font-semibold leading-tight text-gray-800">
                 {{ __('Analisis {$modelName}') }}
             </h2>
             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -262,29 +293,29 @@ HTML;
     </x-slot>
 
     <div class="py-4">
-        <div class="max-w-10xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl rounded-lg p-6">
+        <div class="mx-auto max-w-10xl sm:px-6 lg:px-8">
+            <div class="p-6 overflow-hidden bg-white rounded-lg shadow-xl">
                 <table class="min-w-full bg-white border border-gray-500">
                     <thead>
                         <tr>
-                            <th class="px-2 py-2 border text-sm">No</th>
+                            <th class="px-2 py-2 text-sm border">No</th>
                             {$tableHeaders}
-                            <th class="px-4 py-2 border text-sm">Action</th>
+                            <th class="px-4 py-2 text-sm border">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (\${Str::camel(Str::plural($modelName))} as \$item)
                             <tr>
-                                <td class="px-1 py-2 border text-sm">{{ \$loop->iteration }}</td>
+                                <td class="px-1 py-2 text-sm border">{{ \$loop->iteration }}</td>
                                 {$tableData}
-                                <td class="px-1 py-3 border flex flex-col items-center space-y-2">
-                                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm" data-bs-toggle="modal" data-bs-target="#exampleModal{{ \$item->id }}">
+                                <td class="flex flex-col items-center px-1 py-3 space-y-2 border">
+                                    <button class="px-3 py-1 text-sm font-bold text-white bg-blue-500 rounded hover:bg-blue-700" data-bs-toggle="modal" data-bs-target="#exampleModal{{ \$item->id }}">
                                         Edit
                                     </button>
                                     <form action="{{ route('pages.{$viewFileName}.destroy', \$item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm">
+                                        <button type="submit" class="px-3 py-1 text-sm font-bold text-white bg-red-500 rounded hover:bg-red-700">
                                             Delete
                                         </button>
                                     </form>
@@ -338,7 +369,7 @@ HTML;
                 </div>
 
                 @if (\${Str::camel(Str::plural($modelName))}->isEmpty())
-                    <p class="text-center text-gray-500 mt-4">Tidak ada data.</p>
+                    <p class="mt-4 text-center text-gray-500">Tidak ada data.</p>
                 @endif
             </div>
         </div>

@@ -16,7 +16,7 @@
 
                 <!-- Judul -->
                 <h2 class="text-xl font-semibold text-gray-800">
-                    {{ __('Lahan Praktek') }}
+                    {{ __('Pelaksanaan TA') }}
                 </h2>
             </div>
 

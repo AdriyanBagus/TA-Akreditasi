@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\DosenController;
 use App\Http\Controllers\ImportExportController;
+use App\Http\Controllers\ProfileDosenNewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckFormStatus;
 use App\Http\Controllers\FormGeneratorController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FormSettingController;
+use App\Http\Middleware\Dosen;
 
 use App\Http\Controllers\AnalisisController;
 use App\Http\Controllers\ProfileController;
@@ -173,20 +176,15 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::put('/sitasiluaranpkmdosen/{id}', [SitasiLuaranPkmDosenController::class, 'update'])->name('pages.sitasi_luaran_pkm_dosen.update');
     Route::delete('/sitasiluaranpkmdosen/{id}', [SitasiLuaranPkmDosenController::class, 'destroy'])->name('pages.sitasi_luaran_pkm_dosen.destroy');
 
+    Route::get('/tambah-dosen', function () {return view('pages.create_dosen');
+    })->middleware(['verified'])->name('tambah-dosen');
+
 });
 
-// Route::get('/diagram', [DiagramController::class, 'show'], function () {
-//     return view('pages.diagram_view'})->middleware(['auth', 'verified', 'user'])->name('pages.diagram_view');
 
 Route::get('/form-off', function () {
     return view('form_off');
 })->name('form.off');
-
-// import export route
-Route::post('/visimisi/import-csv', [ImportExportController::class, 'importVisiMisiCSV'])->name('visimisi.import.csv');
-Route::get('/visimisi/export-csv', [ImportExportController::class, 'exportVisiMisiCSV'])->name('visimisi.export.csv');
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -196,9 +194,18 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
+
+Route::middleware([Dosen::class])->group(function () {
+    Route::resource('dosen', DosenController::class)->except(['show']);
+
+    Route::get('/dosen/dashboard', [DosenController::class, 'home'])->name('dosen.dashboard');
+
+    Route::resource('/profiledosen', ProfileDosenNewController::class)->names('dosen.profil_dosen');
+});
+
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
-
+require __DIR__ . '/admin.php';
     Route::get('/tambah-user', function () {return view('admin.tambah-user');
     })->middleware(['verified'])->name('admin.tambah-user');
 
@@ -210,10 +217,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     // Route untuk delete user
     Route::delete('/delete-user/{id}', [HomeController::class, 'destroy'])->name('admin.delete-user');
-
-    // Route untuk mengatur on/off form
-    // Route::get('/forms', [FormSettingController::class, 'index'])->name('admin.forms');
-    // Route::post('/forms/update/{id}', [FormSettingController::class, 'update'])->name('admin.forms.update');
 
     Route::get('/form-settings', [FormSettingController::class, 'index'])->name('form.settings');
     Route::post('/form-settings/{id}', [FormSettingController::class, 'update'])->name('form.settings.update');
@@ -230,9 +233,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // Route untuk tampilan analisis
     Route::get('/visimisi', [AnalisisController::class, 'visimisi'])->name('visimisi');
     Route::get('/kerjasamaAdmin', [AnalisisController::class, 'kerjasama'])->name('kerjasama_admin');
-    Route::get('/kerjasama-pendidikan', [AnalisisController::class, 'kerjasama_pendidikan'])->name('pendidikan');
-    Route::get('/kerjasama-penelitian', [AnalisisController::class, 'kerjasama_penelitian'])->name('penelitian');
-    Route::get('/kerjasama-pengabdian', [AnalisisController::class, 'kerjasama_pengabdian'])->name('pengabdian');
     Route::get('/ketersediaan-dokumen', [AnalisisController::class, 'ketersedian_dokumen'])->name('ketersediaan_dokumen');
     Route::get('/evaluasi-pelaksanaan', [AnalisisController::class, 'evaluasi_pelaksanaan'])->name('evaluasi_pelaksanaan');
     Route::get('/profil_dosen', [AnalisisController::class, 'profil_dosen'])->name('profil_dosen');
@@ -254,6 +254,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/luaran-ki-pkm', [AnalisisController::class, 'luaran_ki_pkm'])->name('luaran_ki_pkm');
     Route::get('/luaran-pkm-dosen', [AnalisisController::class, 'sitasi_luaran_pkm_dosen'])->name('luaran_pkm_dosen');
 
+    // import export route
+    Route::get('/visimisi/export-csv', [ImportExportController::class, 'exportVisiMisiCSV'])->name('visimisi.export.csv');
+    Route::get('/kerjasama/export-csv', [ImportExportController::class, 'exportKerjasamaCSV'])->name('kerjasama.export.csv');
+    Route::get('/ketersediaan-dokumen/export-csv', [ImportExportController::class, 'exportKetersediaanDokumenCSV'])->name('ketersediaan_dokumen.export.csv');
+    Route::get('/evaluasi-pelaksanaan/export-csv', [ImportExportController::class, 'exportEvaluasiPelaksanaanCSV'])->name('evaluasi_pelaksanaan.export.csv');
+    Route::get('/profile-dosen/export-csv', [ImportExportController::class, 'exportProfileDosenCSV'])->name('profile_dosen.export.csv');
 
     // Route form generator
     Route::get('/form-generator', [FormGeneratorController::class, 'index'])->name('generator');

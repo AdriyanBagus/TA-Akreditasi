@@ -16,7 +16,7 @@
 
                 <!-- Judul -->
                 <h2 class="text-xl font-semibold text-gray-800">
-                    {{ __('Lahan Praktek') }}
+                    {{ __('Profile Dosen Tidak Tetap') }}
                 </h2>
             </div>
 
@@ -28,6 +28,16 @@
                     @foreach($tahunList as $tahun)
                         <option value="{{ $tahun->id }}" {{ $tahunTerpilih == $tahun->id ? 'selected' : '' }}>
                             {{ $tahun->tahun }} {{ $tahun->is_active ? '(Aktif)' : '' }}
+                        </option>
+                    @endforeach
+                </select>
+                <label for="user_id" class="text-sm font-medium text-gray-700">Nama Prodi:</label>
+                <select name="user_id" id="user_id" onchange="this.form.submit()"
+                    class="w-64 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-700 bg-white">
+                    <option value="">Semua Prodi</option>
+                    @foreach($prodi as $item)
+                        <option value="{{ $item->id }}" {{ $userTerpilih == $item->id ? 'selected' : '' }}>
+                            {{ $item->name }}
                         </option>
                     @endforeach
                 </select>

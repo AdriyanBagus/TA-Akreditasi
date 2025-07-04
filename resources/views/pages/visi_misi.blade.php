@@ -12,29 +12,6 @@
 
     <div class="py-4">
         <div class="max-w-10xl mx-auto sm:px-6 lg:px-8">
-            <form action="{{ route('visimisi.import.csv') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input type="file" name="csv_file" accept=".csv" required>
-                <button type="submit">Import CSV</button>
-
-                @if(session('import_errors'))
-                    <div class="alert alert-warning">
-                        <strong>Beberapa baris gagal diimpor:</strong>
-                        <ul>
-                            @foreach(session('import_errors') as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-            </form>
 
             <div class="bg-white overflow-hidden shadow-xl rounded-lg p-6">
                 <table class="min-w-full bg-white border border-gray-500">
